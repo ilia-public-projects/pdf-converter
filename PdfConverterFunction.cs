@@ -59,7 +59,7 @@ namespace PdfConverterFunction
 
                     headerPath = headerService.WriteHtmlToFile(request.HeaderHtml);                    
 
-                    byte[] result = pdfConverter.Convert(request.Html, headerPath, request.PdfMarginConfiguration);
+                    byte[] result = pdfConverter.Convert(request.Html, headerPath, request.PdfConfiguration);
                     string fileName = string.IsNullOrWhiteSpace(request.FileName) ? "converted-to.pdf" : request.FileName;
 
                     return new FileContentResult(result, "application/pdf") { FileDownloadName = fileName };

@@ -4,6 +4,6 @@ namespace PdfConverterFunction.Services
 {
     public interface IPdfConverter
     {
-        byte[] Convert(string html, string headerHtmlPath, PdfMarginConfiguration pdfMarginConfiguration = null);
+        byte[] Convert(string html, string headerHtmlPath, PdfConfiguration pdfConfiguration = null);
     }
 }

@@ -27,6 +27,6 @@ namespace PdfConverterFunction.Models
         /// If set will render html in the header of the pdf
         /// </summary>
         public string HeaderHtml { get; set; }
-        public PdfMarginConfiguration PdfMarginConfiguration { get; set; }
+        public PdfConfiguration PdfConfiguration { get; set; } = new PdfConfiguration();
     }
 }

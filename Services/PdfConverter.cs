@@ -13,8 +13,10 @@ namespace PdfConverterFunction.Services
 
         private SynchronizedConverter converter = new SynchronizedConverter(new PdfTools());
 
-        public byte[] Convert(string html, string headerHtmlPath, PdfMarginConfiguration config = null)
+        public byte[] Convert(string html, string headerHtmlPath, PdfConfiguration config = null)
         {
+            var marginConfig = config?.Margins ?? new PdfMarginConfiguration();
+            var orientation = config?.Orientation == PdfOrientation.Landscape ? Orientation.Landscape : Orientation.Portrait;
 
             HtmlToPdfDocument document = new HtmlToPdfDocument
             {
@@ -23,11 +25,12 @@ namespace PdfConverterFunction.Services
                     PaperSize = PaperKind.A4,
                     Margins = new MarginSettings
                     {
-                        Top = config?.Top ?? 30,
-                        Bottom = config?.Bottom ?? 30,
-                        Right = config?.Right ?? 10,
-                        Left = config?.Left ?? 10
+                        Top = marginConfig?.Top ?? 30,
+                        Bottom = marginConfig?.Bottom ?? 30,
+                        Right = marginConfig?.Right ?? 10,
+                        Left = marginConfig?.Left ?? 10
                     },
+                    Orientation = orientation
 
                 },
                 Objects =
@@ -36,13 +39,22 @@ namespace PdfConverterFunction.Services
                         {
 
                             HtmlContent = html,
+
                             WebSettings = new WebSettings
                             {
                                 EnableJavascript = true,
                                 PrintMediaType= true,
+
                             },
                             HeaderSettings = string.IsNullOrWhiteSpace(headerHtmlPath) ? new HeaderSettings() : new HeaderSettings{ HtmUrl = headerHtmlPath },
-                            FooterSettings = new FooterSettings{Left = "Page [page] / [topage]", FontSize=10, FontName="Helvetica Neue",Line = true, Spacing=10}
+                            FooterSettings = new FooterSettings{
+                                Left = "Page [page] / [topage]",
+                                FontSize=10,
+                                FontName="OPEN SANS",
+                                Line = true,
+                                Spacing=10,
+                                Right = "[date] [time]",
+                            }
                         }
                     }
             };
